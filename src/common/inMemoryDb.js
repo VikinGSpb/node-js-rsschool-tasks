@@ -76,15 +76,8 @@ const deleteBoard = async id => {
       return;
     }
   });
-  console.log('deletedBoardId', deletedBoard[0].id);
-  const deletedTask = [];
-  DB[2].forEach((el, idx) => {
-    console.log(el.boardId);
-    if (deletedBoard[0].id === el.boardId) {
-      deletedTask.push(DB[2].splice(idx, 1));
-    }
-  });
-  console.log('deletedTask', deletedTask);
+  const newTaskArray = DB[2].filter(el => el.boardId !== deletedBoard[0].id);
+  DB[2] = [...newTaskArray];
   return deletedBoard[0];
 };
 
