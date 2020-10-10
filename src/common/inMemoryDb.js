@@ -33,6 +33,11 @@ const deleteUser = async id => {
       return;
     }
   });
+  DB[2].forEach(el => {
+    if (deletedUser[0].id === el.userId) {
+      el.userId = null;
+    }
+  });
   return deletedUser[0];
 };
 
@@ -71,7 +76,52 @@ const deleteBoard = async id => {
       return;
     }
   });
+  console.log('deletedBoardId', deletedBoard[0].id);
+  const deletedTask = [];
+  DB[2].forEach((el, idx) => {
+    console.log(el.boardId);
+    if (deletedBoard[0].id === el.boardId) {
+      deletedTask.push(DB[2].splice(idx, 1));
+    }
+  });
+  console.log('deletedTask', deletedTask);
   return deletedBoard[0];
+};
+
+const getAllTasks = async () => [...DB[2]];
+
+const createTask = async task => {
+  DB[2].push(task);
+  return task;
+};
+
+const getTask = async id => DB[2].find(el => el.id === id);
+
+const updateTask = async (id, taskFieldsForUpdate) => {
+  let updatedTask;
+  DB[2].forEach((el, idx) => {
+    if (el.id === id) {
+      for (const key in DB[2][idx]) {
+        if (Object.keys(taskFieldsForUpdate).includes(key)) {
+          DB[2][idx][key] = taskFieldsForUpdate[key];
+        }
+      }
+      updatedTask = { ...DB[2][idx] };
+      return;
+    }
+  });
+  return updatedTask;
+};
+
+const deleteTask = async id => {
+  let deletedTask;
+  DB[2].forEach((el, idx) => {
+    if (el.id === id) {
+      deletedTask = DB[2].splice(idx, 1);
+      return;
+    }
+  });
+  return deletedTask[0];
 };
 
 module.exports = {
@@ -84,5 +134,10 @@ module.exports = {
   getBoard,
   createBoard,
   updateBoard,
-  deleteBoard
+  deleteBoard,
+  getAllTasks,
+  createTask,
+  getTask,
+  updateTask,
+  deleteTask
 };

@@ -8,12 +8,15 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:id').get(async (req, res) => {
-  const board = await boardsService.get(req.params.id);
-  res.json(Board.toResponse(board));
+  try {
+    const board = await boardsService.get(req.params.id);
+    res.json(Board.toResponse(board));
+  } catch (e) {
+    res.sendStatus(404).send('Not Found');
+  }
 });
 
 router.route('/').post(async (req, res) => {
-  console.log('we get it');
   const { title, columns } = req.body;
   const createdBoard = await boardsService.create(
     new Board({ title, columns })
@@ -22,8 +25,12 @@ router.route('/').post(async (req, res) => {
 });
 
 router.route('/:id').put(async (req, res) => {
-  const updatedBoard = await boardsService.update(req.params.id, req.body);
-  res.json(Board.toResponse(updatedBoard));
+  try {
+    const updatedBoard = await boardsService.update(req.params.id, req.body);
+    res.json(Board.toResponse(updatedBoard));
+  } catch (e) {
+    res.sendStatus(404).send('Not Found');
+  }
 });
 
 router.route('/:id').delete(async (req, res) => {
