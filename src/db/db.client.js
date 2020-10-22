@@ -1,9 +1,27 @@
 const mongoose = require('mongoose');
 const User = require('../resources/users/user.model');
+const Board = require('../resources/boards/board.model');
 
 const users = [
   new User({ name: 'admin', password: 'admin', login: 'admin' }),
   new User({ name: 'someUser', password: '12345', login: 'someUser' })
+];
+
+const boards = [
+  new Board({
+    title: 'first',
+    columns: [
+      { title: 'first', order: 0 },
+      { title: 'second', order: 1 }
+    ]
+  }),
+  new Board({
+    title: 'second',
+    columns: [
+      { title: 'first', order: 0 },
+      { title: 'second', order: 1 }
+    ]
+  })
 ];
 
 const connectToDB = cb => {
@@ -18,6 +36,7 @@ const connectToDB = cb => {
     console.log('We are connected!');
     db.dropDatabase();
     users.forEach(user => user.save());
+    boards.forEach(board => board.save());
     cb();
   });
 };
