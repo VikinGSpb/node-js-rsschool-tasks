@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const User = require('../resources/users/user.model');
 const Board = require('../resources/boards/board.model');
 
-const users = [
-  new User({ name: 'admin', password: 'admin', login: 'admin' }),
-  new User({ name: 'someUser', password: '12345', login: 'someUser' })
-];
+const users = [new User({ name: 'admin', password: 'admin', login: 'admin' })];
 
 const boards = [
   new Board({
